@@ -1,14 +1,17 @@
-import React , {useState} from 'react'
+import React , {useState , useEffect} from 'react'
 import classes from './mainInput.module.css'
 
-const Input = () => {
+const Input = (props) => {
 
   const [urlValue, setUrlValue] = useState('')
 
   const changingValue = (event) => {
     setUrlValue(event.target.value)
-    console.log(urlValue)
   }
+
+  useEffect(()=> {
+    props.onChange(urlValue)
+  }, [urlValue])
 
   return (
     <React.Fragment>

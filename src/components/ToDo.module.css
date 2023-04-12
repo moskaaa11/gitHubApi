@@ -1,0 +1,20 @@
+.list {
+    width: 20vw;
+}
+
+.title {
+    width: fit-content;
+    padding: 0 20px;
+    font-size: 23px;
+}
+
+.column {
+    height: fit-content;
+    width: fit-content;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

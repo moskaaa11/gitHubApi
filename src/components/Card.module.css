@@ -1,0 +1,22 @@
+.container {
+    margin-bottom: 10px;
+    max-width: 20vw;
+    height: fit-content;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    background: #7c7b7b;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.title {
+    width: fit-content;
+    font-size: medium;
+}
+
+.text {
+    width: fit-content;
+    font-size: small;
+}
