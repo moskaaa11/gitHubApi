@@ -1,4 +1,3 @@
-import React from 'react'
 import classes from './ToDo.module.css'
 
 const ToDo = (props) => {
@@ -9,7 +8,11 @@ const ToDo = (props) => {
   return (
     <div className={classes.list}>
         <h1 className={classes.title}>{props.title}</h1>
-        <div className={classes.column}>
+        <div 
+        className={classes.column}
+        onDragOver={props.onDragOver}
+        onDrop={props.onDrop}
+        >
           {props.children}
         </div>
     </div>

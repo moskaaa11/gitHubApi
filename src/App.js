@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import Input from './components/Input';
 import Card from './components/Card';
@@ -25,8 +25,11 @@ function App() {
   const [submit , setSubmit] = useState(false)
   const [submitedRepo, setSubmitedRepo] = useState('')
   const [repoCheck, setRepoCheck] = useState('')
+  const [currentList, setCurrentList] = useState(null)
+  const [currentItem, setCurrentItem] = useState(null)
+  const [againRepo, setAgainRepo] = useState(0)
 
-  const octokit = new Octokit({ auth: `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`});
+  const octokit = new Octokit({ auth: `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`});
 
   const newUrlRepo = (newValue) => {
     setNewRepo(newValue)
@@ -46,7 +49,11 @@ function App() {
       fetchRepo(arr[0],arr[1])
       console.log(repoCheck)
     } else if (checkvalue === 1) {
-      console.log('again this repo')
+      if (againRepo === 0) {
+        setAgainRepo(1)
+      } else {
+        setAgainRepo(0)
+      }
     }
   }
 
@@ -67,30 +74,63 @@ function App() {
         {id: 2, title: 'In progress', items: []},
         {id: 3, title: 'Done', items: []}
       ])
+      console.log(response.data)
       setSubmit(true)
     })
   }
 
-
-  const dragOver = () => {
-    console.log(1)
-  }
-
-  const dragLeave = () => {
+  const dragOver = (e) => {
+    e.preventDefault()
     
   }
 
-  const dragStart = () => {
-    
+  const dragStart = (e, list , el) => {
+    setCurrentList(list)
+    setCurrentItem(el)
   }
 
-  const dragEnd = () => {
-    
+  const onDrops = (e, list , el) => {
+    e.preventDefault()
+    const currentIndex = currentList.items.indexOf(currentItem)
+    currentList.items.splice(currentIndex, 1)
+    const dropIndex = list.items.indexOf(el)
+    list.items.splice(dropIndex + 1, 0 , currentItem)
+    setColumnList(columnList.map(l => {
+      if(l.id === list.id) {
+        return list
+      } else if(l.id === currentList.id) {
+        return currentList
+      } else {
+        return l
+      }
+    }))
   }
 
-  const onDrops = () => {
-    
+  const onDropsCard = (e, list ) => {
+    list.items.push(currentItem)
+    const currentIndex = currentList.items.indexOf(currentItem)
+    currentList.items.splice(currentIndex, 1)
+    setColumnList(columnList.map(l => {
+      if(l.id === list.id) {
+        return list
+      } else if(l.id === currentList.id) {
+        return currentList
+      } else {
+        return l
+      }
+    }))
   }
+
+  useEffect(()=>{
+    localStorage.setItem(`${newRepo}`, JSON.stringify(columnList));
+  },[columnList])
+
+  useEffect(() => {
+    const items = JSON.parse(localStorage.getItem(`${newRepo}`));
+    if (items) {
+      setColumnList(items);
+    }
+  }, [againRepo]);
 
   return (
     <React.Fragment>
@@ -102,21 +142,24 @@ function App() {
       {!submit && <InfoRepo/>}
       <Main>
         {columnList.map(list=> 
-        <ToDo key={list.id} title={list.title}>
-          {submit && list.items.map(el =>
-            <Card 
-              onDragOver={(e)=> dragOver(e, list , el)}
-              onDragLeave={(e)=> dragLeave(e)}
-              onDragStart={(e)=> dragStart(e)}
-              onDragEnd={(e)=> dragEnd(e)}
-              onDrop={(e)=> onDrops(e, list , el)}
-              name={el.author_association}
-              key={el.id}
-              title={el.title}
-              id={el.id}
-              created={el.created_at}
-              comments={el.comments}
-            />)}
+        <ToDo 
+        key={list.id} 
+        title={list.title}
+        onDragOver={(e)=> dragOver(e)}
+        onDrop={(e)=> onDropsCard(e, list)}
+        >
+        {submit && list.items.map(el =>
+          <Card 
+            onDragOver={(e)=> dragOver(e)}
+            onDragStart={(e)=> dragStart(e, list , el)}
+            onDrop={(e)=> onDrops(e, list , el)}
+            name={el.author_association}
+            key={el.id}
+            title={el.title}
+            id={el.id}
+            created={el.created_at}
+            comments={el.comments}
+          />)}
         </ToDo>)}
       </Main>
     </React.Fragment>

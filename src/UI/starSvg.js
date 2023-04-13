@@ -1,4 +1,3 @@
-import React from 'react'
 import classes from './star.module.css'
 
 const starSvg = () => {

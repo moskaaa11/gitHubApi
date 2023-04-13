@@ -1,4 +1,3 @@
-import React from 'react'
 import classes from './Card.module.css'
 
 const Card = (props) => {
@@ -14,9 +13,7 @@ const Card = (props) => {
       className={classes.container} 
       onDragOver={props.onDragOver}
       draggable={true}
-      onDragLeave={props.onDragLeav}
       onDragStart={props.onDragStart}
-      onDragEnd={props.onDragEnd}
       onDrop={props.onDrop}
     >
         <h4 className={classes.title}>{props.title}</h4>

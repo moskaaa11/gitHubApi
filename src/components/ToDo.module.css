@@ -9,7 +9,8 @@
 }
 
 .column {
-    height: fit-content;
+    min-height: 50vh;
+    max-height: fit-content;
     width: 24vw;
     background: #ffffff;
     padding: 25px;
