@@ -7,7 +7,7 @@ const InfoRepo = (props) => {
 
     let menu
 
-    const newLink = props.value
+    let newLink = props.value
 
     if (newLink) {
         menu = (newLink.split('https://github.com/').pop()).split('/');
