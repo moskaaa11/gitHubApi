@@ -6,7 +6,7 @@ const Done = () => {
     <div className={classes.list}>
         <h1 className={classes.title}>Done</h1>
         <div className={classes.column}>
-            <Card/>
+          
         </div>
     </div>
   )

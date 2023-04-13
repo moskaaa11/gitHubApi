@@ -7,8 +7,7 @@ const InProgress = () => {
     <div className={classes.list}>
         <h1 className={classes.title}>In Progress</h1>
         <div className={classes.column}>
-            <Card/>
-            <Card/>
+          
         </div>
     </div>
   )

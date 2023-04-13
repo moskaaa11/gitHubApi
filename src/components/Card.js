@@ -1,12 +1,18 @@
 import React from 'react'
 import classes from './Card.module.css'
 
-const Card = () => {
+const Card = (props) => {
+
+  let year = new Date(props.created).getFullYear();
+  let month = new Date(props.created).getMonth() + 1
+  let day = new Date(props.created).getDate() + 1
+
+  let mainText =`# ${props.id} opened ${year}.${month}.${day}`
   return (
     <div className={classes.container}>
-        <h4 className={classes.title}>Some issues title</h4>
-        <p className={classes.text}>#314 opened 3 days ago</p>
-        <p className={classes.text}>Admin | coments: 3</p>
+        <h4 className={classes.title}>{props.title}</h4>
+        <p className={classes.text}>{mainText}</p>
+        <p className={classes.text}>Admin | coments: {props.comments}</p>
     </div>
   )
 }
